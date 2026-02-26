@@ -1,5 +1,5 @@
-import * as salaryService from './service/salary-service.js';
-import Employee from './modules/employee.js';
+import * as salaryService from './Exercicios/service/salary-service.js';
+import Employee from './Exercicios/modules/employee.js';
 
 const data = document.getElementById("grossSalaryInout").innerHTML.split("\n");
 
