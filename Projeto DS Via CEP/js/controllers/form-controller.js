@@ -29,4 +29,18 @@ export function init() {
 
     state.errorCep = document.querySelector(".error-message[data-error='cep']");
     state.errorNumber = document.querySelector(".error-message[data-error='number']");
+
+    state.inputNumber.addEventListener("change", handleInputNumberChange);
+}
+
+function handleInputNumberChange(event) {
+
+    if (event.target.value === "") setFormError("number", "Campo requeirdo");
+    else setFormError("number", "");
+}
+
+function setFormError(key, value) {
+
+    const element = document.querySelector(`[data-error="${key}"]`);
+    element.innerHTML = value;
 }
