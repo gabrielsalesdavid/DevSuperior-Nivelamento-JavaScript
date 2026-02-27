@@ -1,5 +1,6 @@
 import Address from './models/address.js';
 import * as requestService from './services/request-service.js';
+import * as addressService from './services/address-service.js';
 
 function State() {
 
@@ -35,6 +36,31 @@ export function init() {
 
     state.btnClear.addEventListener("click", handleBtnClearClick);
     state.btnSave.addEventListener("click", handleBtnSaveClick);
+
+    state.inputCep.addEventListener("change", handleInputCepChange);
+}
+
+async function handleInputCepChange(event) {
+
+    const cep = event.target.value;
+
+    try {
+        const address = await addressService.findByCep(cep);
+
+        state.inputStreet.value = address.street;
+        state.inputCity.value = address.city;
+
+        state.address = address;
+
+        setFormError("cep", "");
+
+        state.inputNumber.focus();
+    } catch (error) {
+
+        state.inputStreet.value = "";
+        state.inputCity.value = "";
+        setFormError("cep", address.error ? "CEP inválido" : "");
+    }
 }
 
 async function handleBtnSaveClick(event) {
@@ -46,7 +72,7 @@ async function handleBtnSaveClick(event) {
 
 function handleInputNumberChange(event) {
 
-    if (event.target.value === "") setFormError("number", "Campo requeirdo");
+    if (event.target.value === "") setFormError("number", "Campo requerido");
     else setFormError("number", "");
 }
 
