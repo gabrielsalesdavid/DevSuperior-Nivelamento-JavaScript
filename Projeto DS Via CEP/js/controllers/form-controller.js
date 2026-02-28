@@ -70,11 +70,28 @@ function handleInputCepKeyup(event) {
     event.address.number = event.target.value;
 }
 
-async function handleBtnSaveClick(event) {
+function handleBtnSaveClick(event) {
 
     event.preventDefault();
+
+    const errors = addressService.getErrors(state.address);
+
+    const keys = Object.keys(errors);
+
+    if (keys.length > 0) {
+
+        keys.forEach(key => {
+
+            setFormError(key, errors[key]);
+        });
+        return;
+    } else {
+
+        listController.addCard(state.address);
+
+        clearForm();
+    }
     //const result = await requestService.getJson("https://viacep.com.br/ws/01001000/json/");
-    listController.addCard(state.address);
 }
 
 function handleInputNumberChange(event) {
@@ -98,6 +115,8 @@ function clearForm() {
 
     setFormError("cep", "");
     setFormError("number", "");
+
+    state.address = new Address();
 
     state.inputCep.focus();
 }
